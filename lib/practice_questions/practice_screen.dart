@@ -10,11 +10,12 @@ class PracticePage extends StatefulWidget {
 class _PracticePageState extends State<PracticePage> {
   List<String> buttons = [
     ...List.generate(10, (index) => '${index + 1}'),
+    'AC',
     '+',
     '-',
     '*',
-    '=',
     '/',
+    '=',
   ];
   String userinput = '';
   TextEditingController textcontroller = TextEditingController();
@@ -34,6 +35,10 @@ class _PracticePageState extends State<PracticePage> {
       } else {
         userinput += value;
         textcontroller.text = userinput;
+      }
+      if (value == 'AC') {
+        textcontroller.clear();
+        userinput = '';
       }
     });
   }
