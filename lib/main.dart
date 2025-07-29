@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:practice_questions/practice_questions/practice_screen.dart';
-import 'package:practice_questions/providers/practice_providers.dart';
+import 'package:hive/hive.dart';
+import 'package:practice_questions/calculator_app/calculator_screen.dart';
+import 'package:practice_questions/providers/calculator_provider.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  await Hive.openBox('DataBase');
+
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => MethodsProvider())],
+      providers: [ChangeNotifierProvider(create: (_) => CalculatorProvider())],
       child: const MyApp(),
     ),
   );
