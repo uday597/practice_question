@@ -13,7 +13,6 @@ class OutputScreen extends StatefulWidget {
 class _OutputScreenState extends State<OutputScreen> {
   @override
   Widget build(BuildContext context) {
-    final cal = Provider.of<CalculatorProvider>(context).operations;
     return Scaffold(
       appBar: AppBar(
         title: Text('Output'),
@@ -22,18 +21,66 @@ class _OutputScreenState extends State<OutputScreen> {
       ),
       backgroundColor: const Color.fromARGB(170, 44, 2, 87),
 
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: cal.length,
-              itemBuilder: (context, index) {
-                final data = cal[index];
-                return Card(child: ListTile(title: Text(data)));
-              },
-            ),
-          ),
-        ],
+      body: Consumer<CalculatorProvider>(
+        builder: (context, value, child) {
+          final cal = value.operations;
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: cal.length,
+                  itemBuilder: (context, index) {
+                    final data = cal[index];
+                    return Card(
+                      child: ListTile(
+                        leading: IconButton(
+                          onPressed: () {
+                            value.removename(data);
+                          },
+                          icon: Icon(Icons.remove),
+                        ),
+                        title: Text(data),
+                        trailing: IconButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                TextEditingController updatecontroller =
+                                    TextEditingController();
+                                return AlertDialog(
+                                  title: Text('Edit Data'),
+                                  content: TextField(
+                                    controller: updatecontroller,
+                                    decoration: InputDecoration(
+                                      labelText: 'enter new data',
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        final newvalue = updatecontroller.text;
+                                        if (newvalue.isNotEmpty) {
+                                          value.updatedata(index, newvalue);
+                                        }
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Update'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          icon: Icon(Icons.edit),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

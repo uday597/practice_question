@@ -144,7 +144,7 @@ class _PracticePageState extends State<PracticePage> {
                                     Provider.of<CalculatorProvider>(
                                       context,
                                       listen: false,
-                                    ).addname(textcontroller.text);
+                                    ).adddata(textcontroller.text);
                                   }
                                 },
 
